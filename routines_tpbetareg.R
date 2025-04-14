@@ -81,6 +81,27 @@ dbetamv <- function(x, mu, phi, log = FALSE) {
 
 
 #--------------------------------------------------------------------------------
+# probability density function of the twopiece beta distribution 
+#--------------------------------------------------------------------------------
+# parameterised in terms of the mean (mu), phi, and gamma
+# mu: mean (0,1)
+# phi: positive parameter
+# gamma: skewness parameter (-1,1)
+# log: logical; if TRUE, probabilities p are given as log(p).
+
+dtpbetamv <- function(x, mu, phi, gamma, log = FALSE) {
+
+  mu2 <- tpexpit(mu, gamma0)
+  
+  logpdf <- lgamma(phi) - lgamma(mu2*phi) - lgamma((1-mu2)*phi) +
+    (mu2*phi-1)*log(x) + ((1-mu2)*phi-1)*log(1-x)
+  
+  out <- ifelse(log, logpdf, exp(logpdf))
+  return(out)
+}
+
+
+#--------------------------------------------------------------------------------
 # MLE for beta regression (logit link currently)
 #--------------------------------------------------------------------------------
 # y: response variable
